@@ -130,13 +130,24 @@ public class trainingTeleop extends LinearOpMode
 
 
 
+                                                //Setting motor position
+            /**
+             *
+             *            aMotor.setTargetPosition(4400);                           Setting (hopefully) tuned motor position
+             *            aMotor.setPower(1);                                       The amount of power you let the motor have while doing the action
+             *            aMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);          Telling the motor to go to the position you said to
+             *
+             */
+
 
             /**
              *
+             *                  aServo.setPosition(robot.WRIST_TOP);                How to set servo to a final position
              *
-             *
+             *                  aServo.setPosition(.6);                             Setting it to normal double position
              *
              */
+
 
 
         }
