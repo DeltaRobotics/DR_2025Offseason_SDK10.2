@@ -6,20 +6,24 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name="emptyOpmode")
+@TeleOp(name="centerPositionTesting")
 @Disabled
 
-public class emptyOpmode extends LinearOpMode
+public class centerPositionTesting extends LinearOpMode
 {
 
     @Override
     public void runOpMode() throws InterruptedException
     {
 
+        robotHardware robot = new robotHardware(hardwareMap);
+
         waitForStart();
 
         while (opModeIsActive())
         {
+
+
 
         }
     }

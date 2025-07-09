@@ -1,31 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
-//import com.acmerobotics.dashboard.FtcDashboard;
-//import com.acmerobotics.dashboard.config.Config;
-
-
-
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
 
 /**
  * Created by User on 10/1/2022.
  */
- //We need this for Dashboard to change variables
-public class trainingRobotHardware extends LinearOpMode
+@Config //We need this for Dashboard to change variables
+public class robotHardware extends LinearOpMode
 {
-
     //FtcDashboard dashboard = FtcDashboard.getInstance();
     //drive motors
     public DcMotor motorRF = null;
@@ -70,7 +63,7 @@ public class trainingRobotHardware extends LinearOpMode
 
     //PID Turning Variables
 
-    public static double TurnF = .15; // = 32767 / maxV      (do not edit from this number)
+    public static double TurnF = .1; // = 32767 / maxV      (do not edit from this number)
     public static double TurnP = 0.5; // = 0.1 * F           (raise till real's apex touches Var apex)
     public static double TurnI = 0.00; // = 0.1 * P           (fine adjustment of P)
     public static double TurnD = 0.05; // = 0                     (raise to reduce ocolation)
@@ -123,27 +116,46 @@ public class trainingRobotHardware extends LinearOpMode
 
     public static boolean timerInitted = false;
 
-    public static ElapsedTime currentTime = new ElapsedTime();
+    public ElapsedTime currentTime = new ElapsedTime();
 
     //bigger number brings the arm higher
     public final int ARM_TOP = 110;
     public final int ARM_MID = 550;
     public final int ARM_LOW = 620;
 
-    //It goes clockwise when you lower the number from the not specimen side
-    public final double WRIST_TOP = 1;
-    public final double WRIST_MID = .75;
-    public final double WRIST_LOW = .84;
+    public final double SLIDE_TOP = 2350;
+    public final double SLIDE_MID = 700;
+    public final double SLIDE_INIT = 100;
 
-    public final double SPECIMEN_CLOSE = 0.1;
-    public final double SPECIMEN_OPEN = 0.45;
+    public final double WRIST_DROP = 0;
+    public final double WRIST_PICKUP = .65;
+
+    public final double TURRET_RIGHT = 0.2;
+    public final double TURRET_MIDDLE = 0.5;
+    public final double TURRET_LEFT = 0.8;
+
+    public final double BUCKET_ARM_DROP = .22;
+    public final double BUCKET_ARM_REST = .99;
+
+    public final double BUCKET_WRIST_DROP = .64;
+    public final double BUCKET_WRIST_REST = .9;
+
+    public final double SPECIMEN_ARM_PLACE = 0.58;
+    public final double SPECIMEN_ARM_PICKUP = .1;
+    public final double SPECIMEN_WRIST_SLIDES = .65;
+
+    public final double SPECIMEN_CLAW_CLOSE = 0.1;
+    public final double SPECIMEN_CLAW_OPEN = 0.45;
+
+    public final double SPECIMEN_WRIST_PLACE = 0.35;
+    public final double SPECIMEN_WRIST_PICKUP = .175;
 
     double oldTime = 0;
-    GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
+    public GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
 
 
-    public trainingRobotHardware(HardwareMap ahwMap)
+    public robotHardware (HardwareMap ahwMap)
     {
 
         //drive motors
@@ -158,13 +170,13 @@ public class trainingRobotHardware extends LinearOpMode
         motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorRF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorRF.setPower(0);
         motorLF.setPower(0);
@@ -191,9 +203,9 @@ public class trainingRobotHardware extends LinearOpMode
 
 
         odo = ahwMap.get(GoBildaPinpointDriver.class,"odo");
-        odo.setOffsets(-200.0, -120.0);
+        odo.setOffsets(-171.45, 6.35);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD);
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 //        odo.resetPosAndIMU();
 
         //resetRuntime();
@@ -411,7 +423,7 @@ public class trainingRobotHardware extends LinearOpMode
          */
         //Converting odometry computer outputs to inches
         odo.update();
-        GlobalHeading = odo.getHeading();
+        GlobalHeading = odo.getPosition().getHeading(AngleUnit.RADIANS);
         /*
         These are the values from the three wheel odometry
         GlobalX = odo.getPosX() * .03937007874;

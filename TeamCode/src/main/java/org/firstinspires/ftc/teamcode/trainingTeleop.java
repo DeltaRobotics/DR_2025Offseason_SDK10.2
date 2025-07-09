@@ -96,12 +96,12 @@ public class trainingTeleop extends LinearOpMode
 
 
 
-            /**            SETTING DRIVER CONTROLS AND WHERE YOU CHANGE IT FOR THE DRIVER
+            //            SETTING DRIVER CONTROLS AND WHERE YOU CHANGE IT FOR THE DRIVER
 
-             robot.mecanumDrive(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, SPEED); //normal people
-             robot.mecanumDrive(gamepad1.right_stick_y, -gamepad1.right_stick_x, -gamepad1.left_stick_x, SPEED); //nolan
+             //robot.mecanumDrive(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 0); //normal people
+             //robot.mecanumDrive(gamepad1.right_stick_y, -gamepad1.right_stick_x, -gamepad1.left_stick_x, SPEED); //nolan
 
-             */
+             //
 
 
 
@@ -135,7 +135,7 @@ public class trainingTeleop extends LinearOpMode
              *
              *            aMotor.setTargetPosition(4400);                           Setting (hopefully) tuned motor position
              *            aMotor.setPower(1);                                       The amount of power you let the motor have while doing the action
-             *            aMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);          Telling the motor to go to the position you said to
+             *            aMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);          Telling the motor to go to the position you said to go to
              *
              */
 

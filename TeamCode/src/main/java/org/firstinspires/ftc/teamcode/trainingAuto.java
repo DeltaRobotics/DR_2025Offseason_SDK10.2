@@ -93,6 +93,7 @@ public class trainingAuto extends LinearOpMode
          */
 
 
+                                //time drive
         /**
          *
          *     time = robot.timerInit( THE AMOUNT OF TIME ALLOWED TO DO THE ACTION IN MILLISECONDS );

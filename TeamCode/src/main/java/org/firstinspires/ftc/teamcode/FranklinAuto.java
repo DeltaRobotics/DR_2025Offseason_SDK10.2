@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name="emptyOpmode")
-@Disabled
+@Autonomous(name="FranklinAuto")
+//@Disabled
 
-public class emptyOpmode extends LinearOpMode
+public class FranklinAuto extends LinearOpMode
 {
 
     @Override

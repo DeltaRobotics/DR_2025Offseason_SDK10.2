@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit;
  *
  * For detailed instructions on how a HuskyLens is used in FTC, please see this tutorial:
  * https://ftc-docs.firstinspires.org/en/latest/devices/huskylens/huskylens.html
- * 
+ *
  * This sample illustrates how to detect AprilTags, but can be used to detect other types
  * of objects by changing the algorithm. It assumes that the HuskyLens is configured with
  * a name of "huskylens".
@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 @TeleOp(name = "Sensor: HuskyLens", group = "Sensor")
-@Disabled
+//@Disabled
 public class SensorHuskyLens extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
@@ -113,7 +113,7 @@ public class SensorHuskyLens extends LinearOpMode {
          *
          * Other algorithm choices for FTC might be: OBJECT_RECOGNITION, COLOR_RECOGNITION or OBJECT_CLASSIFICATION.
          */
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         telemetry.update();
         waitForStart();
@@ -139,6 +139,7 @@ public class SensorHuskyLens extends LinearOpMode {
              *
              * Returns an empty array if no objects are seen.
              */
+
             HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
@@ -155,6 +156,18 @@ public class SensorHuskyLens extends LinearOpMode {
             }
 
             telemetry.update();
+
+            double power;
+            for(int i = 0; i < blocks.length; i++){
+
+                if(blocks[i].id == 1){
+
+                    power = (blocks[i].x - 50) * .05;
+
+                }
+
+
+            }
         }
     }
 }
